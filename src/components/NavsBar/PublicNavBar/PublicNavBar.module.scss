@@ -1,0 +1,53 @@
+.PublicNavBar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 5px 20px;
+
+  a {
+    font-weight: bold;
+    color: #2c3e50;
+  }
+
+  &Logo {
+    display: flex;
+    align-items: center;
+
+    &Image {
+      max-width: 100%;
+      width: 200px;
+    }
+
+    .srOnly {
+      border: 0 !important;
+      clip: rect(1px, 1px, 1px, 1px) !important; /* 1 */
+      -webkit-clip-path: inset(50%) !important;
+      clip-path: inset(50%) !important; /* 2 */
+      height: 1px !important;
+      margin: -1px !important;
+      overflow: hidden !important;
+      padding: 0 !important;
+      position: absolute !important;
+      width: 1px !important;
+      white-space: nowrap !important; /* 3 */
+    }
+  }
+
+  &Item {
+    text-decoration: none;
+    margin-right: 0.5rem;
+
+    i {
+      display: inline-block;
+      font: normal normal normal 14px/1 FontAwesome;
+      font-size: inherit;
+      text-rendering: auto;
+      -webkit-font-smoothing: antialiased;
+      -moz-osx-font-smoothing: grayscale;
+    }
+
+    &:hover {
+      text-decoration: underline;
+    }
+  }
+}
