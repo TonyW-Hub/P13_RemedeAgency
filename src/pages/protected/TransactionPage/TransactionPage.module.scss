@@ -1,0 +1,33 @@
+.TransactionPage {
+  flex: 1;
+  background-color: #12002b;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+
+  table {
+    width: 80%;
+    margin: 0 auto;
+    border-collapse: collapse;
+
+    thead {
+      color: #fff;
+      text-transform: uppercase;
+    }
+
+    tbody {
+      background-color: #fff;
+
+      tr {
+        vertical-align: middle;
+      }
+
+      img,
+      svg {
+        width: 40px;
+        aspect-ratio: 1/1;
+        cursor: pointer;
+      }
+    }
+  }
+}
