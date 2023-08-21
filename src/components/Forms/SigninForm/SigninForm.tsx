@@ -3,7 +3,7 @@ import Styles from "./SigninForm.module.scss"
 import {
   selectUser,
   userLogin,
-  selectUserError,
+  selectUserFetch,
 } from "../../../features/user/user"
 import { useAppDispatch, useAppSelector } from "../../../app/hooks"
 import { LOCAL_STORAGE_KEYS } from "../../../utils/localStorageKeys"
@@ -15,7 +15,7 @@ type SigninFormProps = {}
 export const SigninForm = (props: PropsWithChildren<SigninFormProps>) => {
   const dispatch = useAppDispatch()
   const user = useAppSelector(selectUser)
-  const userError = useAppSelector(selectUserError)
+  const userFetch = useAppSelector(selectUserFetch)
   const navigate = useNavigate()
   const [username, setUsername] = useState("")
   const [password, setPassword] = useState("")
@@ -68,9 +68,14 @@ export const SigninForm = (props: PropsWithChildren<SigninFormProps>) => {
         <label htmlFor="remember-me">Remember me</label>
       </div>
 
-      <button className={Styles.SigninFormButton}>Sign In</button>
+      <button
+        className={Styles.SigninFormButton}
+        disabled={userFetch === "loading"}
+      >
+        Sign In
+      </button>
 
-      {userError && <p>Error</p>}
+      {userFetch === "failed" && <p>{user.errorMessage}</p>}
     </form>
   )
 }

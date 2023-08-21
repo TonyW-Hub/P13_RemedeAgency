@@ -1,4 +1,4 @@
-import { PayloadAction, createAsyncThunk, createSlice } from "@reduxjs/toolkit"
+import { PayloadAction, createSlice } from "@reduxjs/toolkit"
 import { AppThunk, RootState } from "../../app/store"
 import { userLoginApi } from "./userAPI"
 import { LOCAL_STORAGE_KEYS } from "../../utils/localStorageKeys"
@@ -7,19 +7,15 @@ export interface UserSate {
   user: object
   token: string
   status: "idle" | "loading" | "failed"
+  errorMessage: string
 }
 
 const initialState: UserSate = {
   user: {},
   token: "",
   status: "idle",
+  errorMessage: "",
 }
-
-export const getUser = createAsyncThunk("user/fetch", async () => {
-  const res = await fetch("http://localhost:3001/profile")
-
-  return res
-})
 
 export const userSlice = createSlice({
   name: "user",
@@ -31,45 +27,48 @@ export const userSlice = createSlice({
     setUserToken: (state, action: PayloadAction<string>) => {
       state.token = action.payload
     },
-    setFetchingError: (
+    setFetching: (
       state,
       action: PayloadAction<"loading" | "idle" | "failed">,
     ) => {
       state.status = action.payload
     },
-  },
-  extraReducers(builder) {
-    builder
-      .addCase(getUser.pending, (state) => {
-        state.status = "loading"
-      })
-      .addCase(getUser.fulfilled, (state, action) => {
-        state.status = "idle"
-        state.user = action.payload
-      })
-      .addCase(getUser.rejected, (state) => {
-        state.status = "failed"
-      })
+    setErrorMessage: (state, action: PayloadAction<string>) => {
+      state.errorMessage = action.payload
+    },
   },
 })
 
-export const { setUser, setUserToken, setFetchingError } = userSlice.actions
+export const { setUser, setUserToken, setFetching, setErrorMessage } =
+  userSlice.actions
 
 export const userLogin =
   (email: string, password: string): AppThunk =>
   async (dispatch) => {
-    const response = await userLoginApi(email, password)
+    try {
+      dispatch(setFetching("loading"))
+      const response = await userLoginApi(email, password)
 
-    const data = await response.json()
+      const data = await response?.json()
 
-    const token = data?.body?.token
+      const token = data?.body?.token
 
-    if (token) {
-      dispatch(setUser({ email, password }))
-      dispatch(setUserToken(token))
-      localStorage.setItem(LOCAL_STORAGE_KEYS.user.token, token)
-    } else {
-      dispatch(setFetchingError("failed"))
+      if (token) {
+        dispatch(setFetching("idle"))
+        dispatch(setErrorMessage(""))
+        dispatch(setUser({ email }))
+        dispatch(setUserToken(token))
+        localStorage.setItem(LOCAL_STORAGE_KEYS.user.token, token)
+      } else {
+        if (data?.message) {
+          dispatch(setErrorMessage(data.message))
+        }
+        dispatch(setFetching("failed"))
+        localStorage.removeItem(LOCAL_STORAGE_KEYS.user.token)
+      }
+    } catch (error) {
+      dispatch(setErrorMessage("networkError"))
+      dispatch(setFetching("failed"))
       localStorage.removeItem(LOCAL_STORAGE_KEYS.user.token)
     }
   }
@@ -79,11 +78,15 @@ export const userSignOut = (): AppThunk => (dispatch) => {
   localStorage.removeItem(LOCAL_STORAGE_KEYS.user.token)
 }
 
+export const updateToken = (): AppThunk => (dispatch) => {
+  const storedToken = localStorage.getItem(LOCAL_STORAGE_KEYS.user.token)
+  if (storedToken && storedToken !== "") {
+    dispatch(setUserToken(storedToken))
+  }
+}
+
 export const selectUser = (state: RootState) => state.user
 
-export const selectUserError = (state: RootState) => {
-  if (state.user.status === "failed") return true
-  else return false
-}
+export const selectUserFetch = (state: RootState) => state.user.status
 
 export default userSlice.reducer
