@@ -3,12 +3,16 @@ import Styles from "./ProtectedNavBar.module.scss"
 import { Link } from "react-router-dom"
 import { APP_LINKS } from "../../../utils/appLinks"
 import { APP_IMAGES_ASSETS } from "../../../utils/appImagesAssets"
+import { useAppDispatch } from "../../../app/hooks"
+import { userSignOut } from "../../../features/user/user"
 
 type ProtectedNavBarProps = {}
 
 export const ProtectedNavBar = (
   props: PropsWithChildren<ProtectedNavBarProps>,
 ) => {
+  const dispatch = useAppDispatch()
+
   return (
     <nav className={Styles.ProtectedNavBar}>
       <Link to={APP_LINKS.protected.home}>
@@ -27,7 +31,13 @@ export const ProtectedNavBar = (
           <i className="fa fa-user-circle"></i>
           Tony
         </Link>
-        <Link className={Styles.ProtectedNavBarItem} to={APP_LINKS.public.home}>
+        <Link
+          className={Styles.ProtectedNavBarItem}
+          to={APP_LINKS.public.home}
+          onClick={() => {
+            dispatch(userSignOut())
+          }}
+        >
           <i className="fa fa-sign-out"></i>
           Sign Out
         </Link>
