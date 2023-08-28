@@ -1,17 +1,31 @@
 import { PayloadAction, createSlice } from "@reduxjs/toolkit"
 import { AppThunk, RootState } from "../../app/store"
-import { userLoginApi } from "./userAPI"
+import { updateUserProfileApi, userLoginApi, userProfileApi } from "./userAPI"
 import { LOCAL_STORAGE_KEYS } from "../../utils/localStorageKeys"
 
 export interface UserSate {
-  user: object
+  profile: {
+    email: string
+    firstName: string
+    lastName: string
+    createdAt: string
+    updateAt: string
+    id: string
+  }
   token: string
   status: "idle" | "loading" | "failed"
   errorMessage: string
 }
 
 const initialState: UserSate = {
-  user: {},
+  profile: {
+    email: "",
+    firstName: "",
+    lastName: "",
+    createdAt: "",
+    updateAt: "",
+    id: "",
+  },
   token: "",
   status: "idle",
   errorMessage: "",
@@ -22,7 +36,7 @@ export const userSlice = createSlice({
   initialState,
   reducers: {
     setUser: (state, action) => {
-      state.user = action.payload
+      state.profile = action.payload
     },
     setUserToken: (state, action: PayloadAction<string>) => {
       state.token = action.payload
@@ -54,11 +68,18 @@ export const userLogin =
       const token = data?.body?.token
 
       if (token) {
-        dispatch(setFetching("idle"))
-        dispatch(setErrorMessage(""))
-        dispatch(setUser({ email }))
-        dispatch(setUserToken(token))
-        localStorage.setItem(LOCAL_STORAGE_KEYS.user.token, token)
+        dispatch(successLogIn(token))
+
+        try {
+          const resProfile = await userProfileApi(token)
+          const profile = await resProfile.json()
+
+          if (profile?.body) {
+            dispatch(setUser(profile?.body))
+          }
+        } catch (error) {
+          console.error(error)
+        }
       } else {
         if (data?.message) {
           dispatch(setErrorMessage(data.message))
@@ -70,6 +91,49 @@ export const userLogin =
       dispatch(setErrorMessage("networkError"))
       dispatch(setFetching("failed"))
       localStorage.removeItem(LOCAL_STORAGE_KEYS.user.token)
+    }
+  }
+
+export const successLogIn =
+  (token: string): AppThunk =>
+  (dispatch) => {
+    dispatch(setFetching("idle"))
+    dispatch(setErrorMessage(""))
+    dispatch(setUserToken(token))
+    localStorage.setItem(LOCAL_STORAGE_KEYS.user.token, token)
+  }
+
+export const userProfile =
+  (token: string): AppThunk =>
+  async (dispatch, getState) => {
+    try {
+      const resProfile = await userProfileApi(
+        token ? token : getState().user.token,
+      )
+      const profile = await resProfile.json()
+
+      if (profile?.body) {
+        dispatch(setUser(profile?.body))
+      }
+    } catch (error) {
+      console.error(error)
+    }
+  }
+
+export const updateUserProfile =
+  (update: { firstName: string; lastName: string }): AppThunk =>
+  async (dispatch, getState) => {
+    try {
+      const token = getState().user.token
+
+      const response = await updateUserProfileApi(token, update)
+
+      const profile = await response.json()
+
+      console.log(profile)
+    } catch (error) {
+      console.log(error)
+      dispatch(setErrorMessage("Fail to update user profile"))
     }
   }
 

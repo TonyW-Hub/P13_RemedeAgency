@@ -1,10 +1,10 @@
-import React, { PropsWithChildren, useState } from "react"
+import React, { PropsWithChildren, useState, useEffect } from "react"
 import Styles from "./ProtectedHomePage.module.scss"
 import { EditNameForm } from "../../../components/Forms/EditNameForm/EditNameForm"
 import { Button } from "../../../components/Buttons/Button/Button"
 import { AccountCard } from "../../../components/Cards/AccountCard/AccountCard"
-import { useAppSelector } from "../../../app/hooks"
-import { getUser, selectUser } from "../../../features/user/user"
+import { useAppDispatch, useAppSelector } from "../../../app/hooks"
+import { selectUser, userProfile } from "../../../features/user/user"
 
 type ProtectedHomePageProps = {}
 
@@ -12,6 +12,7 @@ export const ProtectedHomePage = (
   props: PropsWithChildren<ProtectedHomePageProps>,
 ) => {
   const user = useAppSelector(selectUser)
+  const dispatch = useAppDispatch()
 
   const [showEdit, setShowEdit] = useState(false)
 
@@ -19,13 +20,17 @@ export const ProtectedHomePage = (
     setShowEdit(value)
   }
 
+  useEffect(() => {
+    dispatch(userProfile(user?.token))
+  }, [dispatch, user?.token])
+
   return (
     <main className={Styles.ProtectedHomePage}>
       <div className={Styles.ProtectedHomePageHeader}>
         <h1>
           Welcome back
           <br />
-          Tony Jarvis!
+          {user?.profile?.firstName} {user.profile.lastName}!
         </h1>
         {!showEdit && (
           <Button
