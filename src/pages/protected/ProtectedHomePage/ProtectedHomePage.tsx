@@ -30,7 +30,7 @@ export const ProtectedHomePage = (
         <h1>
           Welcome back
           <br />
-          {user?.profile?.firstName} {user.profile.lastName}!
+          {user?.profile?.firstName} {user?.profile?.lastName}!
         </h1>
         {!showEdit && (
           <Button

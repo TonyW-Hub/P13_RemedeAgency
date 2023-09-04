@@ -30,10 +30,13 @@ export const EditNameForm = ({
     lastName: "",
   } as FormData)
 
-  const handleSubmit = () => {
+  const handleSubmit = (e: React.FormEvent) => {
+    e.preventDefault()
     if (fields.firstName === "" || fields.lastName === "") return
 
     dispatch(updateUserProfile(fields))
+
+    cancelEdit(false)
   }
 
   return (
@@ -59,8 +62,8 @@ export const EditNameForm = ({
         <Button
           minWidth={100}
           variant="bordered"
-          onClick={() => {
-            handleSubmit()
+          onClick={(e) => {
+            handleSubmit(e)
           }}
         >
           Save

@@ -130,7 +130,9 @@ export const updateUserProfile =
 
       const profile = await response.json()
 
-      console.log(profile)
+      if (profile?.body) {
+        dispatch(setUser(profile?.body))
+      }
     } catch (error) {
       console.log(error)
       dispatch(setErrorMessage("Fail to update user profile"))
