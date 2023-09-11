@@ -33,6 +33,7 @@ export const EditNameForm = ({
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault()
     if (fields.firstName === "" || fields.lastName === "") return
+    if (!user?.token) return
 
     dispatch(updateUserProfile(fields))
 

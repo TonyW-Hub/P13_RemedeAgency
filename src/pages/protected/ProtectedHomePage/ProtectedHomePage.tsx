@@ -21,8 +21,10 @@ export const ProtectedHomePage = (
   }
 
   useEffect(() => {
+    // if (user && !user.token) return
+
     dispatch(userProfile(user?.token))
-  }, [dispatch, user?.token])
+  }, [dispatch, user])
 
   return (
     <main className={Styles.ProtectedHomePage}>

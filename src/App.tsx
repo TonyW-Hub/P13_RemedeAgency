@@ -5,7 +5,6 @@ import {
   RouterProvider,
 } from "react-router-dom"
 import "./App.css"
-import { AuthLayout } from "./layout/AuthLayout/AuthLayout"
 import { APP_LINKS } from "./utils/appLinks"
 import { PublicHomePage } from "./pages/public/PublicHomePage/PublicHomePage"
 import { PublicLayout } from "./layout/PublicLayout/PublicLayout"
@@ -16,7 +15,7 @@ import { TransactionPage } from "./pages/protected/TransactionPage/TransactionPa
 
 const router = createBrowserRouter(
   createRoutesFromElements(
-    <Route element={<AuthLayout />}>
+    <>
       <Route element={<PublicLayout />}>
         <Route
           path={APP_LINKS.public.home}
@@ -35,7 +34,7 @@ const router = createBrowserRouter(
           element={<TransactionPage />}
         ></Route>
       </Route>
-    </Route>,
+    </>,
   ),
 )
 

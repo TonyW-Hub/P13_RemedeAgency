@@ -25,7 +25,21 @@ export const TransactionPage = (
         <tbody>
           <tr>
             <td>
-              <img src={APP_IMAGES_ASSETS.icon.iconMoney} alt="" />
+              {/* <img src={APP_IMAGES_ASSETS.icon.chevron} alt="Icon chevron" /> */}
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                width="24"
+                height="24"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="2"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                className="feather feather-chevron-down"
+              >
+                <polyline points="6 9 12 15 18 9"></polyline>
+              </svg>
             </td>
             <td>June 20th, 2020</td>
             <td>Golden Sun Bakery</td>
