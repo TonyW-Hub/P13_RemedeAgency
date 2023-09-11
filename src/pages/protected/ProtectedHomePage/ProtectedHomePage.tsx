@@ -20,11 +20,11 @@ export const ProtectedHomePage = (
     setShowEdit(value)
   }
 
-  useEffect(() => {
-    // if (user && !user.token) return
+  // useEffect(() => {
+  //   if (user && !user.token) return
 
-    dispatch(userProfile(user?.token))
-  }, [dispatch, user])
+  //   dispatch(userProfile(user?.token))
+  // }, [dispatch, user])
 
   return (
     <main className={Styles.ProtectedHomePage}>

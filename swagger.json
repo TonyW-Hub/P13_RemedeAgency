@@ -173,7 +173,47 @@
         }
       }
     },
-    "/user/transactions": {
+    "/user/bankbooks": {
+      "get": {
+        "security": [
+          {
+            "Bearer": []
+          }
+        ],
+        "tags": [
+          "User Module"
+        ],
+        "summary": "Returns all User account",
+        "description": "Returns a map of user accounts",
+        "parameters": [
+          {
+            "in": "header",
+            "name": "Authorization",
+            "description": "Attach Bearer JWT token",
+            "type": "string",
+            "required": true
+          }
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "responses": {
+          "200": {
+            "description": "User accounts retrieved successfully",
+            "schema": {
+              "type": "array",
+              "xml": {
+                "wrapped": true
+              },
+              "items": {
+                "$ref": "#/definitions/Bankbook"
+              }
+            }
+          }
+        }
+      }
+    },
+    "/user/{bankbookId}/transactions": {
       "get": {
         "security": [
           {
@@ -192,6 +232,13 @@
             "description": "Attach Bearer JWT token",
             "type": "string",
             "required": true
+          },
+          {
+            "in": "path",
+            "name": "bankbookId",
+            "description": "ID of bankbook to returns transactions",
+            "required": true,
+            "type": "string"
           }
         ],
         "produces": [
@@ -219,7 +266,7 @@
         }
       }
     },
-    "/user/transactions/{transactionId}": {
+    "/user/{bankbookId}/{transactionId}": {
       "get": {
         "security": [
           {
@@ -238,6 +285,13 @@
             "description": "Attach Bearer JWT token",
             "required": true,
             "type": "string"
+          },
+          {
+            "in": "path",
+            "name": "bankbookId",
+            "description": "ID of current bankbook",
+            "required": true,
+            "type": "integer"
           },
           {
             "name": "transactionId",
@@ -285,6 +339,13 @@
             "type": "string"
           },
           {
+            "in": "path",
+            "name": "bankbookId",
+            "description": "ID of current bankbook",
+            "required": true,
+            "type": "integer"
+          },
+          {
             "name": "transactionId",
             "in": "path",
             "description": "ID of transaction to return",
@@ -330,7 +391,9 @@
             "description": "Internal server error"
           }
         }
-      },
+      }
+    },
+    "/user/{bankbookId}/{transactionId}/informations": {
       "delete": {
         "security": [
           {
@@ -349,6 +412,12 @@
             "description": "Attach Bearer JWT token",
             "required": true,
             "type": "string"
+          },
+          {
+            "in": "path",
+            "name": "bankbookId",
+            "required": true,
+            "type": "integer"
           },
           {
             "in": "path",
@@ -446,6 +515,29 @@
         },
         "lastName": {
           "type": "string"
+        }
+      }
+    },
+    "Bankbook": {
+      "type": "object",
+      "properties": {
+        "accountId": {
+          "type": "string"
+        },
+        "title": {
+          "type": "string"
+        },
+        "description": {
+          "type": "string"
+        },
+        "currency": {
+          "type": "string",
+          "example": "EUR"
+        },
+        "amount": {
+          "type": "integer",
+          "format": "int64",
+          "example": 2310
         }
       }
     },
