@@ -8,15 +8,11 @@
   },
   "host": "localhost:3001",
   "basePath": "/api/v1",
-  "schemes": [
-    "http"
-  ],
+  "schemes": ["http"],
   "paths": {
     "/user/login": {
       "post": {
-        "tags": [
-          "User Module"
-        ],
+        "tags": ["User Module"],
         "summary": "Login",
         "description": "API for Login",
         "parameters": [
@@ -30,9 +26,7 @@
             }
           }
         ],
-        "produces": [
-          "application/json"
-        ],
+        "produces": ["application/json"],
         "responses": {
           "200": {
             "description": "Login Successfully",
@@ -51,9 +45,7 @@
     },
     "/user/signup": {
       "post": {
-        "tags": [
-          "User Module"
-        ],
+        "tags": ["User Module"],
         "summary": "Signup",
         "description": "API for Signup",
         "parameters": [
@@ -67,9 +59,7 @@
             }
           }
         ],
-        "produces": [
-          "application/json"
-        ],
+        "produces": ["application/json"],
         "responses": {
           "200": {
             "description": "Signup Successfully",
@@ -93,9 +83,7 @@
             "Bearer": []
           }
         ],
-        "tags": [
-          "User Module"
-        ],
+        "tags": ["User Module"],
         "summary": "User Profile API",
         "description": "API for fetching a user profile",
         "parameters": [
@@ -107,9 +95,7 @@
             "type": "string"
           }
         ],
-        "produces": [
-          "application/json"
-        ],
+        "produces": ["application/json"],
         "responses": {
           "200": {
             "description": "User profile retrieved successully",
@@ -131,9 +117,7 @@
             "Bearer": []
           }
         ],
-        "tags": [
-          "User Module"
-        ],
+        "tags": ["User Module"],
         "summary": "User Profile API",
         "description": "API for updating a user profile",
         "parameters": [
@@ -154,9 +138,7 @@
             }
           }
         ],
-        "produces": [
-          "application/json"
-        ],
+        "produces": ["application/json"],
         "responses": {
           "200": {
             "description": "User profile retrieved successully",
@@ -180,9 +162,7 @@
             "Bearer": []
           }
         ],
-        "tags": [
-          "User Module"
-        ],
+        "tags": ["User Module"],
         "summary": "Returns all User account",
         "description": "Returns a map of user accounts",
         "parameters": [
@@ -194,9 +174,7 @@
             "required": true
           }
         ],
-        "produces": [
-          "application/json"
-        ],
+        "produces": ["application/json"],
         "responses": {
           "200": {
             "description": "User accounts retrieved successfully",
@@ -220,9 +198,7 @@
             "Bearer": []
           }
         ],
-        "tags": [
-          "User Module"
-        ],
+        "tags": ["User Module"],
         "summary": "Return User transactions",
         "description": "Return an array of user transactions filter by current mounth",
         "parameters": [
@@ -241,9 +217,7 @@
             "type": "string"
           }
         ],
-        "produces": [
-          "application/json"
-        ],
+        "produces": ["application/json"],
         "responses": {
           "200": {
             "description": "User transactions retrieved successfully",
@@ -266,16 +240,14 @@
         }
       }
     },
-    "/user/{bankbookId}/{transactionId}": {
+    "/user/{transactionId}": {
       "get": {
         "security": [
           {
             "Bearer": []
           }
         ],
-        "tags": [
-          "User Module"
-        ],
+        "tags": ["User Module"],
         "summary": "Find transaction by ID",
         "description": "Return a single transaction",
         "parameters": [
@@ -287,13 +259,6 @@
             "type": "string"
           },
           {
-            "in": "path",
-            "name": "bankbookId",
-            "description": "ID of current bankbook",
-            "required": true,
-            "type": "integer"
-          },
-          {
             "name": "transactionId",
             "in": "path",
             "description": "ID of transaction to return",
@@ -301,9 +266,7 @@
             "type": "integer"
           }
         ],
-        "produces": [
-          "application/json"
-        ],
+        "produces": ["application/json"],
         "responses": {
           "200": {
             "description": "transaction was successfully",
@@ -325,9 +288,7 @@
             "Bearer": []
           }
         ],
-        "tags": [
-          "User Module"
-        ],
+        "tags": ["User Module"],
         "summary": "Update an existing transaction",
         "description": "Update an existing transaction by ID",
         "parameters": [
@@ -337,13 +298,6 @@
             "description": "Attach Bearer JWT token",
             "required": true,
             "type": "string"
-          },
-          {
-            "in": "path",
-            "name": "bankbookId",
-            "description": "ID of current bankbook",
-            "required": true,
-            "type": "integer"
           },
           {
             "name": "transactionId",
@@ -400,9 +354,7 @@
             "Bearer": []
           }
         ],
-        "tags": [
-          "User Module"
-        ],
+        "tags": ["User Module"],
         "summary": "Delete informations an existing transaction",
         "description": "Delete informations an existing transaction by ID",
         "parameters": [

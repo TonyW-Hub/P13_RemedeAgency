@@ -9,6 +9,7 @@ import { useAppDispatch, useAppSelector } from "../../../app/hooks"
 import { LOCAL_STORAGE_KEYS } from "../../../utils/localStorageKeys"
 import { useNavigate } from "react-router-dom"
 import { APP_LINKS } from "../../../utils/appLinks"
+import { RaceLoader } from "../../Loaders/RaceLoader/RaceLoader"
 
 type SigninFormProps = {}
 
@@ -74,6 +75,8 @@ export const SigninForm = (props: PropsWithChildren<SigninFormProps>) => {
       >
         Sign In
       </button>
+
+      {userFetch === "loading" && <RaceLoader></RaceLoader>}
 
       {userFetch === "failed" && <p>{user.errorMessage}</p>}
     </form>

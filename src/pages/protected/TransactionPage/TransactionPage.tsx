@@ -1,7 +1,7 @@
 import React, { PropsWithChildren } from "react"
 import Styles from "./TransactionPage.module.scss"
 import { AccountCard } from "../../../components/Cards/AccountCard/AccountCard"
-import { APP_IMAGES_ASSETS } from "../../../utils/appImagesAssets"
+import { TransactionTableRow } from "../../../components/Tables/TransactionTableRow/TransactionTableRow"
 
 type TransactionPageProps = {}
 
@@ -23,29 +23,24 @@ export const TransactionPage = (
           </tr>
         </thead>
         <tbody>
-          <tr>
-            <td>
-              {/* <img src={APP_IMAGES_ASSETS.icon.chevron} alt="Icon chevron" /> */}
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                width="24"
-                height="24"
-                viewBox="0 0 24 24"
-                fill="none"
-                stroke="currentColor"
-                strokeWidth="2"
-                strokeLinecap="round"
-                strokeLinejoin="round"
-                className="feather feather-chevron-down"
-              >
-                <polyline points="6 9 12 15 18 9"></polyline>
-              </svg>
-            </td>
-            <td>June 20th, 2020</td>
-            <td>Golden Sun Bakery</td>
-            <td>$5.00</td>
-            <td>$2800.00</td>
-          </tr>
+          <TransactionTableRow
+            date="June 20th, 2020"
+            description="Golden Sun Bakery"
+            amount="5.00"
+            balance="2082.79"
+          />
+          <TransactionTableRow
+            date="June 20th, 2020"
+            description="Golden Sun Bakery"
+            amount="10.00"
+            balance="2087.79"
+          />
+          <TransactionTableRow
+            date="June 20th, 2020"
+            description="Golden Sun Bakery"
+            amount="20.00"
+            balance="2097.79"
+          />
         </tbody>
       </table>
     </main>

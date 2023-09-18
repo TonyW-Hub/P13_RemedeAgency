@@ -1,0 +1,47 @@
+.RaceLoader {
+  width: 56px;
+  height: 56px;
+  display: grid;
+  border: 4.5px solid #0000;
+  border-radius: 50%;
+  border-right-color: #12002b;
+  animation: spinner 1s infinite linear;
+
+  &::before,
+  &::after {
+    content: "";
+    grid-area: 1/1;
+    margin: 2.2px;
+    border: inherit;
+    border-radius: 50%;
+    animation: spinner 2s infinite;
+    border-right-color: #00bc77;
+  }
+
+  &::after {
+    margin: 8.9px;
+    animation-duration: 3s;
+    border-right-color: #12002b;
+  }
+
+  @keyframes spinner {
+    100% {
+      transform: rotate(1turn);
+    }
+  }
+}
+
+.container {
+  display: grid;
+  justify-content: center;
+  align-items: center;
+  width: max-content;
+  margin: 10px auto;
+}
+
+.absolute {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+}
