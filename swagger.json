@@ -473,7 +473,7 @@
     "Bankbook": {
       "type": "object",
       "properties": {
-        "accountId": {
+        "bankbookId": {
           "type": "string"
         },
         "title": {
